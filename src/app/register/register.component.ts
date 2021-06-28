@@ -20,7 +20,9 @@ errors:any;
 isSubmitted:boolean=false;
 text:string="";
 data:any;
-  
+isPost:boolean=false;
+post:any=FormGroup;
+
 constructor(private frmbuilder:FormBuilder, private _userservice:UserserviceService) {
   this.register = frmbuilder.group({
     name:["",[Validators.required,Validators.minLength(4)]] ,                                                     
@@ -30,13 +32,22 @@ constructor(private frmbuilder:FormBuilder, private _userservice:UserserviceServ
      email:["",[Validators.required,Validators.email]] 
     });
     
-    
+    this.post= frmbuilder.group({
+      fname:["",[Validators.required]],
+      lname:["",Validators.required],
+      email:["",Validators.required,Validators.email],
+      password:["",Validators.required],
+      phone:["",Validators.required]
+    })
  }
  
  get registerFormControl() { //access of all form controls... like textbox...
   return this.register.controls;
  }
 
+ get postFormControl(){
+   return this.post.controls;
+ }
  
   ngOnInit() {
 
@@ -66,7 +77,23 @@ constructor(private frmbuilder:FormBuilder, private _userservice:UserserviceServ
       //call service
    }
     
-    
+    }
+
+    addAgent(){
+      this.isPost=true;
+      let data =  {
+         fname_en : "sanjeev",
+         lname_en : "kumar",
+         email: "sanjeev@gmail.com",
+         phone : "1212112112",
+         password : "dasdasd" 
+      }
+      console.log(this.post.value);
+      this._userservice.addAgent(this.post.value).subscribe(res=>{
+       console.log("response--->",res)
+      },err=>{
+        console.log("erro---->",err)
+      })
     }
    
     

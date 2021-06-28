@@ -16,4 +16,7 @@ export class UserserviceService {
    return this.http.get(this._url);
    //return "ddd"
  }
+ addAgent(data:any){
+   return this.http.post("http://54.190.192.105:6105/api/v1/agent/add-agent",data)
+ }
 }
